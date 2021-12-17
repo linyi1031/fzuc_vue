@@ -43,7 +43,7 @@
           <i class="el-icon-edit" style="color: white"></i>
           <span slot="title">Outgoing application</span>
         </el-menu-item>
-        <el-menu-item index="9" style="padding-left: 16%">
+        <el-menu-item index="9" style="padding-left: 16%" @click="nine">
           <i class="el-icon-date" style="color: white"></i>
           <span slot="title">Daily check</span>
         </el-menu-item>
@@ -770,6 +770,9 @@ export default {
     },
     eight(){
       this.$router.push('/outgoing');
+    },
+    nine(){
+      this.$router.push('/daily-check');
     },
     handlePic(params){
       let _this=this

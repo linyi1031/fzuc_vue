@@ -645,7 +645,7 @@ export default {
     },
     nine(){
       this.$router.push('/daily-check');
-    }
+    },
   },
   mounted() {
     let _this=this

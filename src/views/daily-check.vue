@@ -3,6 +3,7 @@
     <!-- <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" /> -->
     <div class="container01">
       <van-row>
+        <el-button type="primary" @click="back" style="margin-left: 4%;margin-top: 2%">Back</el-button>
         <div class="amap-wrapper">
           <div class="text">
             <h2>Daily Sign_in</h2>
@@ -78,6 +79,9 @@ export default {
     this.Issignin()
   },
   methods: {
+    back(){
+      this.$router.push('/Off-Topic')
+    },
     Issignin() {
       let that = this
       this.data = {

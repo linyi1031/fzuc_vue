@@ -1,6 +1,6 @@
 <template>
   <div class="hello" >
-    <el-button type="primary" @click="back">Back</el-button>
+    <el-button type="primary" @click="back"style="margin-left: 1%;margin-top: 1%">Back</el-button>
     <span style="padding-left: 42%;color: white">Epidemic Map</span>
     <div ref="mapbox" style="width:1400px;height:780px;margin:0 auto;" v-loading="loading"></div>
   </div>
