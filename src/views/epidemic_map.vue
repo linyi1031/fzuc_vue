@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import echarts from 'echarts'
+import * as echarts from 'echarts'
 import 'echarts/map/js/china.js'
 import axios from "axios";
 const option = {

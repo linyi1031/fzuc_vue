@@ -114,34 +114,54 @@
             <el-table
                 :data="tableData"
                 border
+                @cell-mouse-enter="handle"
                 style="width: 100%">
               <el-table-column
-                  prop="date"
-                  label="日期">
+                  prop="userId"
+                  label="id"
+                  :width="50">
               </el-table-column>
               <el-table-column
-                  prop="name"
-                  label="姓名">
+                  prop="startTime"
+                  label="start">
               </el-table-column>
               <el-table-column
-                  prop="address"
-                  label="地址">
+                  prop="lastTime"
+                  label="end">
+              </el-table-column>
+              <el-table-column
+                  prop="passAreaInfo"
+                  label="pass area">
+              </el-table-column>
+              <el-table-column
+                  prop="travelAreaInfo"
+                  label="travel area">
+              </el-table-column>
+              <el-table-column
+                  prop="reasonContent"
+                  label="reason">
+              </el-table-column>
+              <el-table-column
+                  prop="status"
+                  label="status">
+              </el-table-column>
+              <el-table-column
+                  label="operation">
+                <template>
+                  <el-button
+                      size="mini"
+                      type="primary"
+                      @click="check">check</el-button>
+                </template>
               </el-table-column>
             </el-table>
           </template>
         </div>
-
       </div>
       <div v-if="show" class="show">
         <div class="msg_pass2">
           <div style="padding-left: 34%"><h4 class="msg_pass_title1">Application Details</h4></div>
           <el-form ref="form" :model="form2" label-width="120px" style="padding-top: 1%">
-            <el-form-item label="Account" style="width: 80%">
-              <el-input v-model="form1.acc" :disabled="true"></el-input>
-            </el-form-item>
-            <el-form-item label="Phone" style="width: 80%">
-              <el-input v-model="form1.phone" :disabled="true"></el-input>
-            </el-form-item>
             <el-form-item label="Travel Area" style="width: 80%">
               <el-select v-model="form2.travelAreaInfo" placeholder="Choose Travel area" :disabled="true">
                 <el-option label="Area1" value=1></el-option>
@@ -157,63 +177,22 @@
             <el-form-item label="begin time" style="width: 80%">
               <el-input v-model="form2.startTime" :disabled="true"></el-input>
             </el-form-item>
-            <el-form-item label="end time" style="width: 80%">
-              <el-input v-model="form2.lastTime" :disabled="true"></el-input>
-            </el-form-item>
             <el-form-item label="reason"  style="width: 80%">
               <el-input v-model="form2.reasonContent" :disabled="true"></el-input>
             </el-form-item>
+            <el-form-item label="check"  style="width: 80%">
+              <el-select v-model="status" placeholder="check">
+                <el-option label="Approved" value=2></el-option>
+                <el-option label="Don't approve" value=1></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="comments"  style="width: 80%">
+              <el-input v-model="comments"></el-input>
+            </el-form-item>
           </el-form>
-          <div style="padding-left: 24%">
-            <el-button style="flex: 1;height: 30px !important;line-height: 5px" @click="change" type="primary">change</el-button>
-            <el-button style="flex: 1;height: 30px !important;line-height: 5px" @click="remove" type="danger">delete</el-button>
+          <div style="padding-left: 34%">
+            <el-button style="flex: 1;height: 30px !important;line-height: 5px" @click="outgoing" type="primary">check</el-button>
             <el-button style="flex: 1;height: 30px !important;line-height: 5px" @click="show=false">close</el-button>
-          </div>
-        </div>
-      </div>
-      <div v-if="show2" class="show">
-        <div class="msg_pass2">
-          <div style="padding-left: 34%"><h4 class="msg_pass_title1">Application Details</h4></div>
-          <el-form ref="form" :model="form1" label-width="120px" style="padding-top: 1%">
-            <el-form-item label="Account">
-              <el-input v-model="form1.acc" :disabled="true"></el-input>
-            </el-form-item>
-            <el-form-item label="Phone">
-              <el-input v-model="form1.phone" :disabled="true"></el-input>
-            </el-form-item>
-            <el-form-item label="Travel Area">
-              <el-select v-model="form1.area1" placeholder="Choose Travel area">
-                <el-option label="Area1" value=1></el-option>
-                <el-option label="Area2" value=2></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Through Area">
-              <el-select v-model="form1.area2" placeholder="Choose through area">
-                <el-option label="Area1" value=1></el-option>
-                <el-option label="Area2" value=2></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="begin time">
-              <el-date-picker
-                  v-model="form1.date1"
-                  type="datetime"
-                  placeholder="begin time">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="end time">
-              <el-date-picker
-                  v-model="form1.date2"
-                  type="datetime"
-                  placeholder="end time">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="reason">
-              <el-input type="textarea" v-model="form1.reason" :rows="5"></el-input>
-            </el-form-item>
-          </el-form>
-          <div style="padding-left: 24%">
-            <el-button style="flex: 1;height: 30px !important;line-height: 5px" @click="submit" type="primary">submit</el-button>
-            <el-button style="flex: 1;height: 30px !important;line-height: 5px" @click="show2=false">cancel</el-button>
           </div>
         </div>
       </div>
@@ -230,6 +209,8 @@ export default {
   name: "Off-Topic",
   data(){
     return{
+      comments:'',
+      status:'2',
       tableData:[],
       form2:{},
       form1:{
@@ -317,6 +298,46 @@ export default {
     });
   },
   methods:{
+    outgoing(){
+      let _this=this
+      this.data={
+        feedback: this.comments,
+        indexId: this.indexId,
+        status: this.status
+      }
+      this.config={
+        method:'post',
+        url:'http://47.96.236.167:8080/Audit/check',
+        headers:{
+          'Content-Type':'application/json',
+          'token':localStorage.token
+        },
+        data:this.data
+      }
+      axios(this.config).then(function(response){
+        _this.config = {
+          method: 'post',
+          url: 'http://47.96.236.167:8080/Audit/searchAll',
+          headers: {
+            'Content-Type': 'application/json',
+            'token':localStorage.token
+          },
+        }
+        axios(_this.config).then(function(response) {
+          console.log(response)
+          _this.tableData=response.data.data
+        }).catch(function(error) {
+          console.log(error)
+        });
+        _this.show=false
+      }).catch(function (error){
+
+      });
+    },
+    check(){
+      this.status='2'
+      this.show=true
+    },
     submit(){
       let _this=this
       this.data={
@@ -413,11 +434,9 @@ export default {
       });
     },
     handle(row){
-      this.show=true
       let _this=this
       _this.form2=row
       _this.indexId=_this.form2.indexId
-      console.log(_this.form2)
     },
     timestampToTime (time) {
       var date = new Date(time)
@@ -536,13 +555,14 @@ export default {
     let _this=this
     this.config = {
       method: 'post',
-      url: 'http://47.96.236.167:8080/outgoing/search',
+      url: 'http://47.96.236.167:8080/Audit/searchAll',
       headers: {
         'Content-Type': 'application/json',
         'token':localStorage.token
       },
     }
     axios(this.config).then(function(response) {
+      console.log(response)
       _this.tableData=response.data.data
     }).catch(function(error) {
       console.log(error)

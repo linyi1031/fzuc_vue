@@ -43,9 +43,9 @@
           <i class="el-icon-edit" style="color: white"></i>
           <span slot="title">Outgoing application</span>
         </el-menu-item>
-        <el-menu-item index="9" style="padding-left: 16%">
+        <el-menu-item index="9" style="padding-left: 16%" @click="nine">
           <i class="el-icon-date" style="color: white"></i>
-          <span slot="title">View the history module</span>
+          <span slot="title">Daily check</span>
         </el-menu-item>
       </el-menu>
       <el-divider></el-divider>
@@ -205,18 +205,11 @@
                 <el-table-column
                     prop="passAreaInfo"
                     label="Through Area"
-                    :width="130"
                     show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
                     prop="status"
                     label="state"
-                    :width="100"
-                    show-overflow-tooltip>
-                </el-table-column>
-                <el-table-column
-                    prop="status"
-                    label="note"
                     show-overflow-tooltip>
                 </el-table-column>
               </el-table>
@@ -484,13 +477,16 @@ export default {
     },
     remove(){
       let _this=this
+      var formdata=new FormData()
+      formdata.append("indexId",_this.indexId);
       this.config={
         method:'post',
         url:'http://47.96.236.167:8080/outgoing/delete',
         headers:{
+          'Content-Type': 'multipart/form-data;',
           'token':localStorage.token
         },
-        data: _this.indexId
+        data: formdata,
       }
       axios(this.config).then(function(response){
         if(response.data.success){
@@ -505,6 +501,7 @@ export default {
           }
           axios(_this.config).then(function(response) {
             _this.tableData=response.data.data
+            _this.show=false
           }).catch(function(error) {
             console.log(error)
           });
@@ -646,6 +643,9 @@ export default {
     eight(){
       this.$router.push('/outgoing');
     },
+    nine(){
+      this.$router.push('/daily-check');
+    }
   },
   mounted() {
     let _this=this

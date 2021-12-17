@@ -109,12 +109,24 @@
         </el-popover>
         <br>
         <el-divider></el-divider>
-
-        <div class="left" style="width: 95%;padding-bottom: 2%;min-height: 620px;margin-left: 2.5%">
-          <div id="eChart1"></div>
-          <div id="eChart2"></div>
-          <div id="eChart3"></div>
-          <div id="eChart4"></div>
+        <h2 style="text-align: center">Overview of forum data</h2><spna style="float: right;margin-right: 10%"><i class="el-icon-success" style="color: green"></i>onlien: {{online}}</spna>
+        <div class="left" style="width: 95%;padding-bottom: 2%;min-height: 572px;margin-left: 2.5%">
+          <div  style="width: 40%;height: 250px;float: left;margin-left: 5%">
+            <span style="padding-left: 45%;font-size: 20px;font-weight: bold">Article</span>
+            <div id="eChart1" style="width: 100%;height: 230px;"></div>
+          </div>
+          <div style="width: 40%;height: 250px;float: left;margin-left: 10%">
+            <span style="padding-left: 44%;font-size: 20px;font-weight: bold">Epidemic</span>
+            <div id="eChart2" style="width: 100%;height: 230px;"></div>
+          </div><br>
+          <div style="width: 40%;height: 250px;float: left;margin-left: 5%;margin-top: 10px">
+            <span style="padding-left: 45%;font-size: 20px;font-weight: bold">Login</span>
+            <div id="eChart3" style="width: 100%;height: 230px;"></div>
+          </div>
+          <div style="width: 40%;height: 250px;float: left;margin-left: 10%;margin-top: 10px">
+            <span style="padding-left: 48%;font-size: 20px;font-weight: bold">Out</span>
+            <div id="eChart4" style="width: 100%;height: 230px;"></div>
+          </div>
         </div>
 
         </div>
@@ -217,6 +229,13 @@ export default {
   name: "Off-Topic",
   data(){
     return{
+      Article:[],
+      globalP:[],
+      globalC:[],
+      globalD:[],
+      login:[],
+      out:[],
+      online:[],
       tableData:[],
       form2:{},
       form1:{
@@ -307,6 +326,13 @@ export default {
     }).catch(function(error) {
       console.log(error)
     });
+    var date = new Date()
+    let y = date.getFullYear()
+    let MM = date.getMonth() + 1
+    MM = MM < 10 ? ('0' + MM) : MM
+    let d = date.getDate()
+    d = d < 10 ? ('0' + d) : d
+    _this.Data=[y + '-' + MM + '-' + (d-6),y + '-' + MM + '-' + (d-5),y + '-' + MM + '-' + (d-4),y + '-' + MM + '-' + (d-3),y + '-' + MM + '-' + (d-2),y + '-' + MM + '-' + (d-1),y + '-' + MM + '-' + d]
   },
   methods:{
     drawLine1(id) {
@@ -316,7 +342,7 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          data: ['功能使用总数']
+          data: ['The number of articles published']
         },
         grid: {
           left: '1%',
@@ -326,15 +352,76 @@ export default {
         },
         xAxis: {
           type: 'category',
+          data: this.Data
         },
         yAxis: {
           type: 'value'
         },
 
         series: [{
-          name: '功能使用总数',
+          name: 'number of articles published',
           type: 'line',
-          data: this.opinionData1
+          data: this.Article
+        }]
+      })
+    },
+    drawLine3(id) {
+      this.charts = echarts.init(document.getElementById(id))
+      this.charts.setOption({
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: ['The number of login']
+        },
+        grid: {
+          left: '1%',
+          right: '1%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          data: this.Data
+        },
+        yAxis: {
+          type: 'value'
+        },
+
+        series: [{
+          name: 'number of login',
+          type: 'line',
+          data: this.login
+        }]
+      })
+    },
+    drawLine4(id) {
+      this.charts = echarts.init(document.getElementById(id))
+      this.charts.setOption({
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: ['The number of out']
+        },
+        grid: {
+          left: '1%',
+          right: '1%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          data: this.Data
+        },
+        yAxis: {
+          type: 'value'
+        },
+
+        series: [{
+          name: 'number of out',
+          type: 'line',
+          data: this.out
         }]
       })
     },
@@ -345,7 +432,7 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          data: ['功能使用总数']
+          data: ['The number of world epidemic']
         },
         grid: {
           left: '1%',
@@ -355,15 +442,24 @@ export default {
         },
         xAxis: {
           type: 'category',
+          data: this.Data
         },
         yAxis: {
           type: 'value'
         },
 
         series: [{
-          name: '功能使用总数',
+          name: 'Total world deaths',
           type: 'line',
-          data: this.opinionData2
+          data: this.globalD
+        },{
+          name: 'Total number of world confirm',
+          type: 'line',
+          data: this.globalC
+        },{
+          name: 'Total world population',
+          type: 'line',
+          data: this.globalP
         }]
       })
     },
@@ -595,6 +691,8 @@ export default {
     }
     axios(this.config).then(function(response) {
       console.log(response)
+      _this.Article=response.data.content
+      _this.drawLine1('eChart1')
     }).catch(function(error) {
       console.log(error)
     });
@@ -608,6 +706,10 @@ export default {
       },
     }
     axios(this.config).then(function(response) {
+      _this.globalC=response.data.content.confirmedData
+      _this.globalP=response.data.content.populationData
+      _this.globalD=response.data.content.deathsData
+      _this.drawLine2('eChart2')
       console.log(response)
     }).catch(function(error) {
       console.log(error)
@@ -622,6 +724,8 @@ export default {
       },
     }
     axios(this.config).then(function(response) {
+      _this.login=response.data.content
+      _this.drawLine3('eChart3')
       console.log(response)
     }).catch(function(error) {
       console.log(error)
@@ -636,6 +740,8 @@ export default {
       },
     }
     axios(this.config).then(function(response) {
+      _this.out=response.data.content
+      _this.drawLine4('eChart4')
       console.log(response)
     }).catch(function(error) {
       console.log(error)
@@ -650,6 +756,7 @@ export default {
       },
     }
     axios(this.config).then(function(response) {
+      _this.online=response.data.content
       console.log(response)
     }).catch(function(error) {
       console.log(error)

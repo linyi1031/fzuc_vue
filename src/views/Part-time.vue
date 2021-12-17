@@ -45,7 +45,7 @@
         </el-menu-item>
         <el-menu-item index="9" style="padding-left: 16%">
           <i class="el-icon-date" style="color: white"></i>
-          <span slot="title">View the history module</span>
+          <span slot="title">Daily check</span>
         </el-menu-item>
       </el-menu>
       <el-divider></el-divider>
