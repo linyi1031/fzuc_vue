@@ -15,7 +15,7 @@ const option = {
     // 标题内容
   },
   series: [{
-    name: 'history diagnosis',
+    name: 'diagnosis',
     type: 'map',
     // 告诉echarts渲染一个地图
     map: 'china',

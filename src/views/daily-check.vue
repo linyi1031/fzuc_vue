@@ -10,10 +10,6 @@
             <p style="text-align: center;color: white;margin-top: -0.625rem;">study hard, improve every day</p>
           </div>
           <div id='container'></div>
-<!--          <div class="info">-->
-<!--            <h4 id='status'></h4><hr>-->
-<!--            <p id='result'></p><hr>-->
-<!--          </div>-->
           <el-input placeholder="Please enter your health status today" v-model="description" clearable>
           </el-input>
           <div class="siginBox">
@@ -31,19 +27,17 @@
             </div>
           </div>
           <div class="Positioningtips">
-            <p class="isshow_Singn" v-if="isSignFlag"><i></i>已进入签到范围</p>
-            <!-- 						<p class="notshow_Singn" v-else style="color:#E85656"><i></i>不在签到范围内</p>
-             -->					</div>
+            <p class="isshow_Singn" v-if="isSignFlag"><i></i>Enter the check-in range</p></div>
         </div>
         <div class="sing_in">
         </div>
       </van-row>
-      <van-dialog v-model="isshow_Singn_diglog" confirmButtonText="I get it" confirmButtonColor="#5F6FAB"
-                  @confirm="confirm">
-        <van-row>
-          {{sigNinTime}}<p id="text">Sign in successfully</p>
-        </van-row>
-      </van-dialog>
+<!--      <van-dialog v-model="isshow_Singn_diglog" confirmButtonText="I get it" confirmButtonColor="#5F6FAB"-->
+<!--                  @confirm="confirm">-->
+<!--        <van-row>-->
+<!--          {{sigNinTime}}<p id="text">Sign in successfully</p>-->
+<!--        </van-row>-->
+<!--      </van-dialog>-->
     </div>
   </section>
 
@@ -60,7 +54,7 @@ export default {
 
   data() {
     return {
-      mymap:'',
+      map:'',
       input: '',
       msg: '',
       description: '',
@@ -74,9 +68,36 @@ export default {
 
   },
   mounted() {
+    let that=this
 
     this.getlocation()
     this.Issignin()
+  },
+  created() {
+    let _this=this
+    this.data={
+      token:localStorage.token
+    }
+    this.config = {
+      method: 'post',
+      url: 'http://47.96.236.167:8080/user/message',
+      headers: {
+        'Content-Type': 'application/json',
+        'token':localStorage.token
+      },
+      data:this.data
+    }
+    axios(this.config).then(function(response) {
+      _this.message=response.data.content
+      _this.form1.acc=response.data.content.account
+      _this.form1.phone=response.data.content.phoneNumber
+      if(response.data.status == 0){
+        alert("You have not logged in!")
+        location.href = "/"
+      }
+    }).catch(function(error) {
+      console.log(error)
+    });
   },
   methods: {
     back(){
@@ -88,31 +109,30 @@ export default {
         code: "",
         msg: "",
         success:"" ,
-
       }
       this.config = {
         method: 'get',
         url: 'http://47.96.236.167:8080/sign/ifSignToday',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'token':localStorage.token
         },
         data: this.data
       }
       axios(this.config).then(function(response) {
         console.log(response);
         console.log(response.data.msg);
-        if (response.data.success == 1) {
+        if (response.data.success == true) {
           that.isSignFlag = false;
         }
-
       }).catch(function(error) {
         console.log(error)
       });
-
     },
     getlocation() {
       let that=this
-      this.mymap= new AMap.Map('container', {
+      var p=[]
+      var map= new AMap.Map('container', {
         resizeEnble: true
       });
       AMap.plugin('AMap.Geolocation', function() {
@@ -121,18 +141,17 @@ export default {
           timeout: 10000,
           buttonPosition: 'RB',
           buttonOffset: new AMap.Pixel(10, 20),
-          zoomToAccuracy: true
+          zoomToAccuracy: true,
+          panToLocation: true,
         });
         geolocation.getCurrentPosition()
         AMap.event.addListener(geolocation, 'complete', onComplete)
         AMap.event.addListener(geolocation, 'error', onError)
 
-        function onComplete(data) {
-
-          that.location = data.position;
-          console.log(data.position)
-
-        }
+        // function onComplete(data) {
+        //   that.location = data.position.R+','+data.position.R;
+        //   console.log( that.location)
+        // }
 
         function onError(data) {
           console.log(data)
@@ -146,12 +165,23 @@ export default {
             str.push('精度：' + data.accuracy + ' 米');
           }//如为IP精确定位结果则没有精度信息
           str.push('是否经过偏移：' + (data.isConverted ? '是' : '否'));
-          document.getElementById('result').innerHTML = str.join('<br>');
+          // document.getElementById('result').innerHTML = str.join('<br>');
+          p.push(data.position.R)
+          p.push(data.position.Q)
+          console.log(p[0])
+          var marker = new AMap.Marker({
+            map: map,
+            icon: "//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png",
+            position: data.position,
+            offset: new AMap.Pixel(-10, -30)
+          });
+          that.location = data.position.R+','+data.position.Q;
+          console.log( that.location)
         }
         //解析定位错误信息
         function onError(data) {
-          document.getElementById('status').innerHTML='定位失败'
-          document.getElementById('result').innerHTML = '失败原因排查信息:'+data.message;
+          // document.getElementById('status').innerHTML='定位失败'
+          // document.getElementById('result').innerHTML = '失败原因排查信息:'+data.message;
         }
       });
 
@@ -171,7 +201,6 @@ export default {
         this.data = {
           description: this.description,
           location: this.location,
-
         }
         this.config = {
           method: 'post',
@@ -179,21 +208,23 @@ export default {
           headers: {
             'Content-Type': 'application/json',
             'token': localStorage.token
-
           },
           data: this.data
         }
         axios(this.config).then(function(response) {
-          console.log(response)
+          if(response.data.success==true){
+            that.isSignFlag=false
+          }
+          if(response.data.success==false){
+            alert(response.data.msg)
+          }
+
         }).catch(function(error) {
           console.log(error)
         });
 
       }
     },
-    confirm() {
-      this.isSignFlag = false;
-    }
   }
 
 }

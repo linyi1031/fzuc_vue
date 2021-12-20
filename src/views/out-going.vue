@@ -149,18 +149,18 @@
               </el-form-item>
               <el-form-item label="Travel Area">
                 <el-select v-model="form1.area1" placeholder="Choose Travel area">
-                  <el-option label="福州" value=1></el-option>
-                  <el-option label="福建省内" value=2></el-option>
-                  <el-option label="省外" value=3></el-option>
-                  <el-option label="境外" value=4></el-option>
+                  <el-option label="Fuzhou" value=1></el-option>
+                  <el-option label="Fujian province" value=2></el-option>
+                  <el-option label="Fujian outside" value=3></el-option>
+                  <el-option label="Overseas" value=4></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="Through Area">
                 <el-select v-model="form1.area2" placeholder="Choose through area">
-                  <el-option label="旗山校区" value=1></el-option>
-                  <el-option label="怡山校区" value=2></el-option>
-                  <el-option label="铜盘校区" value=3></el-option>
-                  <el-option label="泉港校区" value=4></el-option>
+                  <el-option label="Qishang area" value=1></el-option>
+                  <el-option label="Yishang area" value=2></el-option>
+                  <el-option label="Tongpan area" value=3></el-option>
+                  <el-option label="Quangang area" value=4></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="begin time">
@@ -229,18 +229,18 @@
               </el-form-item>
               <el-form-item label="Travel Area" style="width: 80%">
                 <el-select v-model="form2.travelAreaInfo" placeholder="Choose Travel area" :disabled="true">
-                  <el-option label="福州" value=1></el-option>
-                  <el-option label="福建省内" value=2></el-option>
-                  <el-option label="省外" value=3></el-option>
-                  <el-option label="境外" value=4></el-option>
+                  <el-option label="Fuzhou" value=1></el-option>
+                  <el-option label="Fujian province" value=2></el-option>
+                  <el-option label="Fujian outside" value=3></el-option>
+                  <el-option label="Overseas" value=4></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="Through Area" style="width: 80%">
                 <el-select v-model="form2.passAreaInfo" placeholder="Choose through area" :disabled="true">
-                  <el-option label="旗山校区" value=1></el-option>
-                  <el-option label="怡山校区" value=2></el-option>
-                  <el-option label="铜盘校区" value=3></el-option>
-                  <el-option label="泉港校区" value=4></el-option>
+                  <el-option label="Qishang area" value=1></el-option>
+                  <el-option label="Yishang area" value=2></el-option>
+                  <el-option label="Tongpan area" value=3></el-option>
+                  <el-option label="Quangang area" value=4></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="begin time" style="width: 80%">
@@ -272,18 +272,18 @@
               </el-form-item>
               <el-form-item label="Travel Area">
                 <el-select v-model="form1.area1" placeholder="Choose Travel area">
-                  <el-option label="福州" value=1></el-option>
-                  <el-option label="福建省内" value=2></el-option>
-                  <el-option label="省外" value=3></el-option>
-                  <el-option label="境外" value=4></el-option>
+                  <el-option label="Fuzhou" value=1></el-option>
+                  <el-option label="Fujian province" value=2></el-option>
+                  <el-option label="Fujian outside" value=3></el-option>
+                  <el-option label="Overseas" value=4></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="Through Area">
                 <el-select v-model="form1.area2" placeholder="Choose through area">
-                  <el-option label="旗山校区" value=1></el-option>
-                  <el-option label="怡山校区" value=2></el-option>
-                  <el-option label="铜盘校区" value=3></el-option>
-                  <el-option label="泉港校区" value=4></el-option>
+                  <el-option label="Qishang area" value=1></el-option>
+                  <el-option label="Yishang area" value=2></el-option>
+                  <el-option label="Tongpan area" value=3></el-option>
+                  <el-option label="Quangang area" value=4></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="begin time">
