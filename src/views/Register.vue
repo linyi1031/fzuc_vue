@@ -60,8 +60,8 @@
 							</div>
 							<div id="re">
 								<el-form-item>
-								
-								
+
+                  <el-button type="primary" round @click="back" >Back</el-button>
 								
 									<el-button type="primary" round @click="submitForm('ruleForm')" >Rigster now</el-button>
 								</el-form-item>
@@ -174,6 +174,9 @@
 		},
 
 		methods: {
+		  back(){
+        this.$router.push('/')
+      },
 			//发送验证码
 			sendCode() {
 				 if (this.isRun) return;
@@ -278,7 +281,7 @@
 <style scoped>
 	#re {
 		margin-top: 2.1875rem;
-		margin-left: 29.375rem;
+		margin-left: 27.875rem;
 	}
 	* {
 		padding: 0;
