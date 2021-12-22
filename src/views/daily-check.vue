@@ -26,8 +26,8 @@
               </div>
             </div>
           </div>
-          <div class="Positioningtips">
-            <p class="isshow_Singn" v-if="isSignFlag"><i></i>Enter the check-in range</p></div>
+<!--          <div class="Positioningtips">-->
+<!--            <p class="isshow_Singn" v-if="isSignFlag"><i></i>Enter the check-in range</p></div>-->
         </div>
         <div class="sing_in">
         </div>
@@ -47,7 +47,7 @@
 </script>
 <script type="text/javascript">
 import axios from "axios"
-// import 'vant/lib/button/style'
+
 
 export default {
 
@@ -69,7 +69,6 @@ export default {
   },
   mounted() {
     let that=this
-
     this.getlocation()
     this.Issignin()
   },
@@ -105,11 +104,6 @@ export default {
     },
     Issignin() {
       let that = this
-      this.data = {
-        code: "",
-        msg: "",
-        success:"" ,
-      }
       this.config = {
         method: 'get',
         url: 'http://47.96.236.167:8080/sign/ifSignToday',
@@ -117,7 +111,6 @@ export default {
           'Content-Type': 'application/json',
           'token':localStorage.token
         },
-        data: this.data
       }
       axios(this.config).then(function(response) {
         console.log(response);
@@ -147,12 +140,6 @@ export default {
         geolocation.getCurrentPosition()
         AMap.event.addListener(geolocation, 'complete', onComplete)
         AMap.event.addListener(geolocation, 'error', onError)
-
-        // function onComplete(data) {
-        //   that.location = data.position.R+','+data.position.R;
-        //   console.log( that.location)
-        // }
-
         function onError(data) {
           console.log(data)
         }
@@ -184,10 +171,6 @@ export default {
           // document.getElementById('result').innerHTML = '失败原因排查信息:'+data.message;
         }
       });
-
-
-
-
     },
 
     setNowTimes() {
@@ -218,11 +201,9 @@ export default {
           if(response.data.success==false){
             alert(response.data.msg)
           }
-
         }).catch(function(error) {
           console.log(error)
         });
-
       }
     },
   }

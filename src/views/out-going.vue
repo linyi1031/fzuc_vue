@@ -50,7 +50,7 @@
       </el-menu>
       <el-divider></el-divider>
       <div style="margin-top: -5%">
-        <span class="a2" style="color: white;margin-left: 20%;margin-top: -3%">©2021 <i style="font-weight: bold">About Team 3</i></span>
+        <span class="a2" style="color: white;margin-left: 20%;margin-top: -3%">©2021 <i style="font-weight: bold" @click="about">About Team 3</i></span>
         <br>
       </div>
     </div>
@@ -410,6 +410,9 @@ export default {
     });
   },
   methods:{
+    about(){
+      this.$router.push('/about');
+    },
     submit(){
       let _this=this
       this.data={
@@ -477,16 +480,14 @@ export default {
     },
     remove(){
       let _this=this
-      var formdata=new FormData()
-      formdata.append("indexId",_this.indexId);
       this.config={
         method:'post',
         url:'http://47.96.236.167:8080/outgoing/delete',
         headers:{
-          'Content-Type': 'multipart/form-data;',
+          'Content-Type': 'application/json',
           'token':localStorage.token
         },
-        data: formdata,
+        data: {indexId:_this.indexId},
       }
       axios(this.config).then(function(response){
         if(response.data.success){

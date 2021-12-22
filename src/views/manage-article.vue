@@ -26,7 +26,7 @@
       </el-menu>
       <el-divider></el-divider>
       <div style="margin-top: -5%">
-        <span class="a2" style="color: white;margin-left: 20%;margin-top: -3%">©2021 <i style="font-weight: bold">About Team 3</i></span>
+        <span class="a2" style="color: white;margin-left: 20%;margin-top: -3%">©2021 <i style="font-weight: bold" @click="about">About Team 3</i></span>
         <br>
       </div>
     </div>
@@ -243,6 +243,9 @@ export default {
     });
   },
   methods:{
+    about(){
+      this.$router.push('/about');
+    },
     handle(row){
       let _this=this
       _this.articleId=row.articleId

@@ -50,7 +50,7 @@
       </el-menu>
       <el-divider></el-divider>
       <div style="margin-top: -5%">
-        <span class="a2" style="color: white;margin-left: 20%;margin-top: -3%">©2021 <i style="font-weight: bold">About Team 3</i></span>
+        <span class="a2" style="color: white;margin-left: 20%;margin-top: -3%">©2021 <i style="font-weight: bold" @click="about">About Team 3</i></span>
         <br>
       </div>
     </div>
@@ -142,7 +142,7 @@
             <div style="width: 100%">
               <div style="position:relative;">
                 <el-avatar :size="50" :src="circleUrl2" style="margin-left: 2%;"></el-avatar>
-                <span style="line-height: 34px;font-size: 25px;margin-left: 4%;position: absolute;margin-top: 1.5%">Working time!!</span>
+                <span style="line-height: 34px;font-size: 25px;margin-left: 4%;position: absolute;margin-top: 1.5%">Do you want a part-time job?</span>
               </div>
               <div style="width: 100%;border-radius: 50px;position: relative"  @click="drawer=true">
                 <el-input
@@ -462,6 +462,9 @@ export default {
     });
   },
   methods:{
+    about(){
+      this.$router.push('/about');
+    },
     comment(){
       let _this=this
       this.data={
