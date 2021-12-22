@@ -126,7 +126,9 @@ export default {
       let that=this
       var p=[]
       var map= new AMap.Map('container', {
-        resizeEnble: true
+        resizeEnble: true,
+        center: [119.198, 26.05942],
+        zoom: 13
       });
       AMap.plugin('AMap.Geolocation', function() {
         var geolocation = new AMap.Geolocation({
@@ -201,6 +203,8 @@ export default {
           if(response.data.success==false){
             alert(response.data.msg)
           }
+          // that.isSignFlag=false
+          // alert('successfully')
         }).catch(function(error) {
           console.log(error)
         });
